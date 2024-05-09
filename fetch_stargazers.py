@@ -103,11 +103,11 @@ def get_stargazers(repo_owner, repo_name):
         if not data or 'repository' not in data:
             break
         page = data['repository']['stargazers']
-        if total_count == 0:  # Ensure total_count is fetched only once
-            total_count = page['totalCount']
+        # if total_count == 0:  # Ensure total_count is fetched only once
+        #     total_count = page['totalCount']
         stargazers.extend([edge['node']['login'] for edge in page['edges']])
-        if len(stargazers) >= 5:  # Stop once we have 5 stargazers
-            break
+        # if len(stargazers) >= 5:  # Stop once we have 5 stargazers
+        #     break
         if not page['pageInfo']['hasNextPage']:
             break
         cursor = page['edges'][-1]['cursor']
