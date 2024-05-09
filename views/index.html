@@ -13,7 +13,7 @@
   </style>
 </svelte:head>
 <View class="gap-10 px-4 m-auto max-w-[1540px] md:px-8 h-100%">
-  <div class="flex sticky top-4 justify-center z-20 bg-gradient-to-b from-white to-transparent">
+  <div class="flex sticky top-0 pt-4 justify-center z-20 bg-gradient-to-b from-white to-transparent">
     <div class="bg-gray-900 items-center border-2 border-gray-600 shadow-inner shadow-xl px-2 py-2 flex gap-2 rounded-full">
       <Link class="bg-white border-2 border-gray-100 shadow-sm rounded-full px-4 py-2 text-gray-800 font-medium" to="/">Overview</Link>
       <Link class="font-medium text-gray-300 rounded-full px-4 py-2 border-2 border-transparent hover:bg-gray-800 hover:border-2 hover:border-gray-600 transition-all ease-in-out duration-150" to="/users-list">Users List</Link>
@@ -26,7 +26,10 @@
   </div>
   <Row class="flex gap-10 pt-20">
     <Column class="w-full gap-4 flex-wrap">
-      <Text.H2 class="font-semibold text-lg">Top Common Repos Starred</Text.H2>
+      <div class="flex-col gap-1">
+        <Text.H2 class="font-semibold text-lg">Top Common Repos Starred</Text.H2>
+        <p class="text-gray-400">Github repos most starred by your stargazers</p>
+      </div>
       <Row class="flex-wrap gap-4 h-[440px] overflow-scroll no-scrollbar">
         {#await runQuery('repo/repo-common-chart') then repo}
           {#each repo as repo}
@@ -54,7 +57,10 @@
     </Column>
 
     <Column class="w-full gap-4 flex-wrap">
-      <Text.H2 class="font-semibold text-lg">Top Common Following Users</Text.H2>
+      <div class="flex-col gap-1">
+        <Text.H2 class="font-semibold text-lg">Top Common Following Users</Text.H2>
+        <p class="text-gray-400">The users most followed by your stargazers</p>
+      </div>
       <Row class="flex-wrap gap-4 h-[440px] overflow-scroll no-scrollbar">
         {#await runQuery('following/following-common-chart') then following}
           {#each following as following}
@@ -82,7 +88,10 @@
     </Column>
 
     <Column class="w-full gap-4 flex-wrap">
-      <Text.H2 class="font-semibold text-lg">Top Common Organizations</Text.H2>
+      <div class="flex-col gap-1">
+        <Text.H2 class="font-semibold text-lg">Top Common Organizations</Text.H2>
+        <p class="text-gray-400">The orgs your stargazers belong to</p>
+      </div>
       <Row class="flex-wrap gap-4 h-[440px] overflow-scroll no-scrollbar">
         {#await runQuery('organization/organization-common-chart') then organization}
           {#each organization as organization}
@@ -111,7 +120,10 @@
     </Column>
 
     <Column class="w-full gap-4 flex-wrap">
-      <Text.H2 class="font-semibold text-lg">Top Stargazers by Followers</Text.H2>
+      <div class="flex-col gap-1">
+        <Text.H2 class="font-semibold text-lg">Top Stargazers by Followers</Text.H2>
+        <p class="text-gray-400">Stargazers with more followers</p>
+      </div>
       <Row class="flex-wrap gap-4 h-[440px] overflow-scroll no-scrollbar">
         {#await runQuery('users/users-high-followers') then users_followers}
           {#each users_followers as users_followers}
