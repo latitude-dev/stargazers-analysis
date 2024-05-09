@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "@latitude-data/duckdb-connector": "^2.1.0"
+  }
+}

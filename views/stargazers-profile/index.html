@@ -1,0 +1,216 @@
+<svelte:head>
+  <title>Github Stargazers Analysis</title>
+</svelte:head>
+<View class="gap-10 px-4 m-auto max-w-[1540px] md:px-8 h-100%">
+<RunButton>Run</RunButton>
+
+  <Row class="flex gap-10">
+    <Link to="/">Overview</Link>
+    <Link to="/users-list">Users List</Link>
+  </Row>
+  <Row class="flex gap-10">
+    <Column class="w-full gap-6 flex flex-col">
+      <Row class="gap-6">
+        <Column class="flex w-full">
+          <BarChart class="h-full"
+            query='repo/repo-common-chart'
+            title='Common Repos'
+            x='starred_repo'
+            y='total'
+            sort={{ column: 'total', order: 'asc' }}
+            swapAxis=true
+          />
+        </Column>
+        <Column class="">
+          <Table class="max-h-[400px] w-96"
+            query="repo/repo-common-table"
+          />
+        </Column>
+      </Row>
+    </Column>
+
+    
+    <Column class="w-full gap-6 flex flex-col">
+      <Row class="gap-6">
+        <Column class="flex w-full">
+          <BarChart class="h-full"
+            query='following/following-common-chart'
+            title='Common Following'
+            x='following'
+            y='total'
+            sort={{ column: 'total', order: 'asc' }}
+            swapAxis=true
+          />
+        </Column>
+        <Column class="">
+          <Table class="max-h-[400px] w-96"
+            query="following/following-common-table"
+          />
+        </Column>
+      </Row>
+    </Column>
+  </Row>
+
+  <Row class="flex gap-10">
+    <Column class="w-full gap-6 flex flex-col">
+      <Row class="gap-6">
+        <Column class="flex w-full">
+          <BarChart class="h-full"
+            query='location/location-common-chart'
+            title='Common Location'
+            x='location'
+            y='total'
+            xAxisFormat={[
+              {rotate: 45},
+            ]}
+            sort={{ column: 'total', order: 'asc' }}
+            swapAxis=true
+          />
+        </Column>
+        <Column class="">
+          <Table class="max-h-[600px] min-w-96"
+            query="location/location-common-table"
+          />
+        </Column>
+      </Row>
+    </Column>
+
+    
+    <Column class="w-full gap-6 flex flex-col">
+      <Row class="gap-6">
+        <Column class="flex w-full">
+          <BarChart class="h-full"
+            query='organization/organization-common-chart'
+            title='Common Organization'
+            x='organization'
+            y='total'
+            xAxisFormat={[
+              {rotate: 45},
+            ]}
+            sort={{ column: 'total', order: 'asc' }}
+            swapAxis=true
+          />
+        </Column>
+        <Column class="">
+          <Table class="max-h-[600px] min-w-96"
+            query="organization/organization-common-table"
+          />  
+        </Column>
+      </Row>
+    </Column>
+  </Row>
+
+  <Row class="flex gap-10">
+    <Column class="w-full gap-6 flex flex-col">
+      <Row class="gap-6">
+        <Column class="flex w-full">
+          <BarChart class="h-full"
+            query='company/company-common-chart'
+            title='Common Company'
+            x='company'
+            y='total'
+            xAxisFormat={[
+              {rotate: 45},
+            ]}
+            sort={{ column: 'total', order: 'asc' }}
+            swapAxis=true
+          />
+        </Column>
+        <Column class="">
+          <Table class="max-h-[600px] min-w-96"
+            query="company/company-common-table"
+          />  
+        </Column>
+      </Row>
+    </Column>
+    <Column class="w-full gap-6 flex flex-col invisible">
+      <Row class="gap-6">
+        <Column class="flex w-full">
+          <BarChart class="h-full"
+            query='company/company-common-chart'
+            title='Common Company'
+            x='company'
+            y='total'
+            xAxisFormat={[
+              {rotate: 45},
+            ]}
+            sort={{ column: 'total', order: 'asc' }}
+            swapAxis=true
+          />
+        </Column>
+        <Column class="">
+          <Table class="max-h-[600px] min-w-96"
+            query="company/company-common-table"
+          />  
+        </Column>
+      </Row>
+    </Column>
+  </Row>
+
+  <Row class="flex">
+    <Column class="w-full">
+      <FunnelChart
+        query='users/users-stars-funnel'
+        orientation='horizontal'
+        title='Starred Repos Funnel'
+        sort='descending'
+        x='range'
+        y='users'
+        config={{
+          showLabels: false,
+          showColorGradient: true
+        }}
+      />
+    </Column>
+    <Column class="w-full">
+      <FunnelChart
+        query='users/users-public-repos-funnel'
+        orientation='horizontal'
+        title='Public Repos Funnel'
+        sort='descending'
+        x='range'
+        y='users'
+        config={{
+          showLabels: false,
+          showColorGradient: true
+        }}
+      />
+    </Column>
+  </Row>
+
+  <Row class="flex gap-6">
+    <Column class="w-full">
+      <Table class="max-h-[600px] min-w-96"
+        query="users/users-low-activity"
+        title='Users with low activity'
+        description='<5 followers, <5 following and <2 public repos'
+      />  
+    </Column>
+    <Column class="w-full">
+      <Table class="max-h-[600px] min-w-96"
+        query="users/users-recent"
+        title='Stargazer user created after repo creation'
+        description='15 March 24'
+      />  
+    </Column>
+    <Column class="w-full">
+      <Table class="max-h-[600px] min-w-96"
+        query="users/users-high-followers"
+        title='Users with max followers quantity'
+      />  
+    </Column>
+  </Row>
+  
+  <Row class="hidden">
+    -- location select
+    -- followers input
+    -- following input
+    -- following select
+    -- organization select
+    -- company select
+    -- created_at date
+    -- public repos input
+    -- repos_starred input
+    --  select
+  </Row>
+</View>

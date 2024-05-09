@@ -1,0 +1,102 @@
+<svelte:head>
+  <title>Github Stargazers Analysis</title>
+</svelte:head>
+<View class="gap-10 px-4 m-auto max-w-[1540px] md:px-8 h-100%">
+<div class="sticky top-0 py-4 z-10 flex flex-col justify-center bg-gradient-to-b from-white to-transparent">
+  <div class="flex justify-center z-10">
+    <div class="bg-gray-900 items-center border-2 border-gray-600 shadow-inner shadow-md px-2 py-2 flex gap-2 rounded-full">
+      <Link class="font-medium text-gray-300 rounded-full px-4 py-2 border-2 border-transparent hover:bg-gray-800 hover:border-2 hover:border-gray-600 transition-all ease-in-out duration-150" to="/">Overview</Link>
+      <Link class="bg-white border-2 border-gray-100 shadow-sm rounded-full px-4 py-2 text-gray-800 font-medium" to="/users-list">Users List</Link>
+      <Link class="font-medium text-gray-300 rounded-full px-4 py-2 border-2 border-transparent hover:bg-gray-800 hover:border-2 hover:border-gray-600 transition-all ease-in-out duration-150" to="/common-repos">Repos</Link>
+      <Link class="font-medium text-gray-300 rounded-full px-4 py-2 border-2 border-transparent hover:bg-gray-800 hover:border-2 hover:border-gray-600 transition-all ease-in-out duration-150" to="/common-following">Following</Link>
+      <Link class="font-medium text-gray-300 rounded-full px-4 py-2 border-2 border-transparent hover:bg-gray-800 hover:border-2 hover:border-gray-600 transition-all ease-in-out duration-150" to="/common-location">Location</Link>
+      <Link class="font-medium text-gray-300 rounded-full px-4 py-2 border-2 border-transparent hover:bg-gray-800 hover:border-2 hover:border-gray-600 transition-all ease-in-out duration-150" to="/common-organization">Organization</Link>
+      <Link class="font-medium text-gray-300 rounded-full px-4 py-2 border-2 border-transparent hover:bg-gray-800 hover:border-2 hover:border-gray-600 transition-all ease-in-out duration-150" to="/common-company">Company</Link>
+    </div>
+  </div>
+  <Column class="flex z-10 py-4 px-2">
+    <Row class="flex justify-center">
+      <div class="flex gap-8 bg-white border-2 border-gray-50 rounded-3xl px-6 shadow-lg py-4 items-center">
+        <Column class="">
+          <Row class="gap-4">
+            <Input class="" param='users_user_search' label='User Info' value='' placeholder="Search user details…" />
+          </Row>
+        </Column>
+        <Column>
+          <Row class="gap-4 flex">
+            <Select
+              class="w-32"
+              label='Repo Starred'
+              param="users_repo_search"
+              query="repo/repo-options"
+              options={["All Repos"]}
+              searchable
+              value={'All Repos'}
+            />
+            <Select
+              class="w-32"
+              label='Organization'
+              param="users_organization_search"
+              query="organization/organization-options"
+              options={["All Organizations"]}
+              searchable
+              value={'All Organizations'}
+            />
+            <Select
+              class="w-32"
+              label='Following to'
+              param="users_following_search"
+              query="following/following-options"
+              options={["All Following"]}
+              searchable
+              value={'All Following'}
+            />
+          </Row>
+        </Column>
+      <Column class="">
+        <Row class="gap-4">
+          <Input class="w-32" param='users_followers_count' label='Min. Followers' value='' placeholder="0" />
+          <Input class="w-32" param='users_following_count' label='Min. Following' value='' placeholder="0" />
+          <Input class="w-32" param='users_public_repos_count' label='Min. Public Repos' value='' placeholder="0" />
+          <Input class="w-32" param='users_starred_repos_count' label='Min. Repos Starred' value='' placeholder="0" />
+        </Row>
+      </Column>
+      <Column class="">
+        <Row class="gap-4">
+          <Link to="/users-list/?repo_search=$text:All%20Repos&organization_search=$text:All%20Organizations&following_search=$text:All%20Following">Reset</Link>
+        </Row>
+      </Column>
+      </div>
+    </Row>
+  </Column>
+</div>
+
+  <Table class=""
+    query="filters/users-params"
+    opts={{
+      reactToParams: 500
+    }}
+  />
+  <Column class="fixed w-full bottom-2 max-w-[1540px]">
+    <div class="w-full flex justify-center">
+      <div class="rounded-xl bg-gray-900 py-2 px-6 text-gray-100">
+          {#await runQuery('filters/users-total-filtered', {}, { reactiveToParams: 500 })}
+            Loading
+          {:then total_users_filtered}
+            {#each total_users_filtered as total_users_filtered}
+                {total_users_filtered.total_users} Users
+            {/each}
+          {/await}
+      <div>
+    </div>
+  </Column>
+  <a
+    href='https://latitude.so/?utm_campaign=file-over-app&utm_source=made-with-latitude&utm_medium=referral'
+    rel='noreferrer'
+    target='_blank'
+    class='bg-gray-900 py-2 px-3 rounded-lg flex items-center fixed bottom-4 right-4'
+  >
+    <img src='https://www.google.com/s2/favicons?domain=https://docs.latitude.so/&sz=128' class='w-4 h-4 mr-1' />
+    <Text.H6 class='text-white font-semibold'>Made with Latitude</Text.H6>
+  </a>
+</View>

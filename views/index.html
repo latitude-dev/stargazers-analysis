@@ -1,0 +1,233 @@
+<svelte:head>
+  <title>Github Stargazers Analysis</title>
+  <style>
+      /* Hide scrollbar for Chrome, Safari and Opera */
+      .no-scrollbar::-webkit-scrollbar {
+          display: none;
+      }
+     /* Hide scrollbar for IE, Edge and Firefox */
+      .no-scrollbar {
+          -ms-overflow-style: none;  /* IE and Edge */
+          scrollbar-width: none;  /* Firefox */
+    }
+  </style>
+</svelte:head>
+<View class="gap-10 px-4 m-auto max-w-[1540px] md:px-8 h-100%">
+  <div class="flex sticky top-4 justify-center z-20">
+    <div class="bg-gray-900 items-center border-2 border-gray-600 shadow-inner shadow-xl px-2 py-2 flex gap-2 rounded-full">
+      <Link class="bg-white border-2 border-gray-100 shadow-sm rounded-full px-4 py-2 text-gray-800 font-medium" to="/">Overview</Link>
+      <Link class="font-medium text-gray-300 rounded-full px-4 py-2 border-2 border-transparent hover:bg-gray-800 hover:border-2 hover:border-gray-600 transition-all ease-in-out duration-150" to="/users-list">Users List</Link>
+      <Link class="font-medium text-gray-300 rounded-full px-4 py-2 border-2 border-transparent hover:bg-gray-800 hover:border-2 hover:border-gray-600 transition-all ease-in-out duration-150" to="/common-repos">Repos</Link>
+      <Link class="font-medium text-gray-300 rounded-full px-4 py-2 border-2 border-transparent hover:bg-gray-800 hover:border-2 hover:border-gray-600 transition-all ease-in-out duration-150" to="/common-following">Following</Link>
+      <Link class="font-medium text-gray-300 rounded-full px-4 py-2 border-2 border-transparent hover:bg-gray-800 hover:border-2 hover:border-gray-600 transition-all ease-in-out duration-150" to="/common-location">Location</Link>
+      <Link class="font-medium text-gray-300 rounded-full px-4 py-2 border-2 border-transparent hover:bg-gray-800 hover:border-2 hover:border-gray-600 transition-all ease-in-out duration-150" to="/common-organization">Organization</Link>
+      <Link class="font-medium text-gray-300 rounded-full px-4 py-2 border-2 border-transparent hover:bg-gray-800 hover:border-2 hover:border-gray-600 transition-all ease-in-out duration-150" to="/common-company">Company</Link>
+    </div>
+  </div>
+  <Row class="flex gap-10 pt-20">
+    <Column class="w-full gap-4 flex-wrap">
+      <Text.H2 class="font-semibold text-lg">Top Common Repos Starred</Text.H2>
+      <Row class="flex-wrap gap-4 h-[440px] overflow-scroll no-scrollbar">
+        {#await runQuery('repo/repo-common-chart') then repo}
+          {#each repo as repo}
+              <a href="https://github.com/{repo.organization}/{repo.starred_repo}" target="_blank" rel="nofollow" class="border-2 border-gray-400/20 w-full px-4 py-4 overflow-hidden rounded-xl relative flex justify-between bg-white hover:bg-gray-100 hover:border-gray-300">
+                <div class="flex flex-col items-start gap-1 z-10">
+                  <img src='https://github.com/{repo.organization}.png' class="w-12 h-12 object-contain rounded-full" />
+                  <Text.H4 class="capitalize font-semibold text-gray-800">{repo.starred_repo}</Text.H4>
+                </div>
+                <div class="flex flex-col items-end">
+                  <span class="text-lg text-gray-800 font-semibold">{repo.total}</span>
+                  <span class="text-sm text-gray-500">Stargazers</span>
+                </div>
+                <img src='https://github.com/{repo.organization}.png' class="rounded-xl absolute -left-12 -top-16 blur-2xl w-64 z-0 opacity-[.15] saturate-200 " />
+                <div class="absolute inset-0 bg-gradient-to-b from-transparent to-white opacity-50"></div>
+              </a>
+          {/each}
+        {/await}
+      </Row>
+      <a href="/common-repos" target="_blank" rel="nofollow" class="border-2 border-gray-100 w-full px-4 py-4 overflow-hidden rounded-xl relative flex items-center justify-center bg-gray-50 hover:bg-gray-100 hover:border-gray-300">
+        <div class="flex flex-col items-start gap-1 z-10">
+          <Text.H4 class="capitalize font-semibold text-gray-600">See All →</Text.H4>
+        </div>
+        <div class="absolute inset-0 bg-gradient-to-b from-transparent to-white opacity-50"></div>
+      </a>
+    </Column>
+
+    <Column class="w-full gap-4 flex-wrap">
+      <Text.H2 class="font-semibold text-lg">Top Common Following Users</Text.H2>
+      <Row class="flex-wrap gap-4 h-[440px] overflow-scroll no-scrollbar">
+        {#await runQuery('following/following-common-chart') then following}
+          {#each following as following}
+              <a href=https://github.com/{following.user} target="_blank" rel="nofollow" class="border-2 border-gray-400/20 w-full px-4 py-4 overflow-hidden rounded-xl relative flex justify-between bg-white hover:bg-gray-100 hover:border-gray-300">
+                <div class="flex flex-col items-start gap-1 z-10">
+                  <img src='https://github.com/{following.user}.png' class="w-12 h-12 object-contain rounded-full" />
+                  <Text.H4 class="capitalize font-semibold text-gray-800">{following.user}</Text.H4>
+                </div>
+                <div class="flex flex-col items-end">
+                  <span class="text-lg text-gray-800 font-semibold">{following.total}</span>
+                  <span class="text-sm text-gray-500">Stargazers</span>
+                </div>
+                <img src='https://github.com/{following.user}.png' class="rounded-xl absolute -left-12 -top-16 blur-2xl w-64 z-0 opacity-[.15] saturate-200 " />
+                <div class="absolute inset-0 bg-gradient-to-b from-transparent to-white opacity-50"></div>
+              </a>
+          {/each}
+        {/await}
+      </Row>
+      <a href="/common-following" target="_blank" rel="nofollow" class="border-2 border-gray-100 w-full px-4 py-4 overflow-hidden rounded-xl relative flex items-center justify-center bg-gray-50 hover:bg-gray-100 hover:border-gray-300">
+        <div class="flex flex-col items-start gap-1 z-10">
+          <Text.H4 class="capitalize font-semibold text-gray-600">See All →</Text.H4>
+        </div>
+        <div class="absolute inset-0 bg-gradient-to-b from-transparent to-white opacity-50"></div>
+      </a>
+    </Column>
+
+    <Column class="w-full gap-4 flex-wrap">
+      <Text.H2 class="font-semibold text-lg">Top Common Organizations</Text.H2>
+      <Row class="flex-wrap gap-4 h-[440px] overflow-scroll no-scrollbar">
+        {#await runQuery('organization/organization-common-chart') then organization}
+          {#each organization as organization}
+              <a href=https://github.com/{organization.organization} target="_blank" rel="nofollow" class="border-2 border-gray-400/20 w-full px-4 py-4 overflow-hidden rounded-xl relative flex justify-between bg-white hover:bg-gray-100 hover:border-gray-300">
+                <div class="flex flex-col items-start gap-1 z-10">
+                  <img src='https://github.com/{organization.organization}.png' class="w-12 h-12 object-contain rounded-full" />
+                  <Text.H4 class="capitalize font-semibold text-gray-800">{organization.organization}</Text.H4>
+                </div>
+                <div class="flex flex-col items-end">
+                  <span class="text-lg text-gray-800 font-semibold">{organization.total}</span>
+                  <span class="text-sm text-gray-500">Stargazers</span>
+                </div>
+                <img src='https://github.com/{organization.organization}.png' class="rounded-xl absolute -left-12 -top-16 blur-2xl w-64 z-0 opacity-[.15] saturate-200 " />
+                <div class="absolute inset-0 bg-gradient-to-b from-transparent to-white opacity-50"></div>
+              </a>
+          {/each}
+        {/await}
+      </Row>
+        <a href="/organization" target="_blank" rel="nofollow" class="border-2 border-gray-100 w-full px-4 py-4 overflow-hidden rounded-xl relative flex items-center justify-center
+       bg-gray-50 hover:bg-gray-100 hover:border-gray-300">
+          <div class="flex flex-col items-start gap-1 z-10">
+            <Text.H4 class="capitalize font-semibold text-gray-600">See All →</Text.H4>
+          </div>
+          <div class="absolute inset-0 bg-gradient-to-b from-transparent to-white opacity-50"></div>
+        </a>
+    </Column>
+
+    <Column class="w-full gap-4 flex-wrap">
+      <Text.H2 class="font-semibold text-lg">Top Stargazers by Followers</Text.H2>
+      <Row class="flex-wrap gap-4 h-[440px] overflow-scroll no-scrollbar">
+        {#await runQuery('users/users-high-followers') then users_followers}
+          {#each users_followers as users_followers}
+              <a href=https://github.com/{users_followers.username} target="_blank" rel="nofollow" class="border-2 border-gray-400/20 w-full px-4 py-4 overflow-hidden rounded-xl relative flex justify-between bg-white hover:bg-gray-100 hover:border-gray-300">
+                <div class="flex flex-col items-start gap-1 z-10">
+                  <img src='https://github.com/{users_followers.username}.png' class="w-12 h-12 object-contain rounded-full" />
+                  <Text.H4 class="capitalize font-semibold text-gray-800">{users_followers.username}</Text.H4>
+                </div>
+                <div class="flex flex-col items-end">
+                  <span class="text-lg text-gray-800 font-semibold">{users_followers.total}</span>
+                  <span class="text-sm text-gray-500">Followers</span>
+                </div>
+                <img src='https://github.com/{users_followers.username}.png' class="rounded-xl absolute -left-12 -top-16 blur-2xl w-64 z-0 opacity-[.15] saturate-200 " />
+                <div class="absolute inset-0 bg-gradient-to-b from-transparent to-white opacity-50"></div>
+              </a>
+          {/each}
+        {/await}
+      </Row>
+        <a href="/users-list" target="_blank" rel="nofollow" class="border-2 border-gray-100 w-full px-4 py-4 overflow-hidden rounded-xl relative flex items-center justify-center
+       bg-gray-50 hover:bg-gray-100 hover:border-gray-300">
+          <div class="flex flex-col items-start gap-1 z-10">
+            <Text.H4 class="capitalize font-semibold text-gray-600">See All →</Text.H4>
+          </div>
+          <div class="absolute inset-0 bg-gradient-to-b from-transparent to-white opacity-50"></div>
+        </a>
+    </Column>
+  </Row>
+
+  <Row class="flex gap-10">
+
+    
+  </Row>
+  <Row class="flex gap-16 pb-12">
+    <Column class="w-full gap-6 border-2 p-8 rounded-2xl">
+      <span class="text-5xl">
+        {#await runQuery('users/users-total', {}, { reactiveToParams: 500 })}
+          Loading
+        {:then users_total}
+          {#each users_total as users_total}
+              {users_total.total}
+          {/each}
+        {/await} 
+      </span>
+      <div class="flex-col gap-2">
+        <Text.H3 class="text-gray-600">Total Stargazers</Text.H3>
+        <p class="text-gray-400">The total number of stargazers of your repository</p>
+      </div>
+    </Column>
+    <Column class="w-full gap-6 border-2 p-8 rounded-2xl">
+      <span class="text-5xl">
+        {#await runQuery('users/users-low-activity', {}, { reactiveToParams: 500 })}
+          Loading
+        {:then users_low_activity}
+          {#each users_low_activity as users_low_activity}
+              {users_low_activity.total}
+          {/each}
+        {/await} 
+      </span>
+      <div class="flex-col gap-2">
+        <Text.H3 class="text-gray-600">Stargazers with low activity</Text.H3>
+        <p class="text-gray-400">Users under 5 followers, 5 following and 2 public repos</p>
+      </div>
+    </Column>
+    <Column class="w-full gap-6 border-2 p-8 rounded-2xl">
+      <span class="text-5xl">
+        {#await runQuery('users/users-recent', {}, { reactiveToParams: 500 })}
+          Loading
+        {:then users_recent}
+          {#each users_recent as users_recent}
+              {users_recent.total}
+          {/each}
+        {/await} 
+      </span>
+      <div class="flex-col gap-2">
+        <Text.H3 class="text-gray-600">Stargazers created after repo release</Text.H3>
+        <p class="text-gray-400">Users who created their Github account after [Change the date in 'queries/users/users-recent']</p>
+      </div>
+    </Column>
+  </Row>
+
+  <Row class="flex gap-10 pb-12">
+    <Column class="w-full gap-4 flex-wrap">
+      <BarChart
+        query='users/users-stars-funnel'
+        title='Number of Stargazers by Repos Starred'
+        x='range'
+        y='users'
+        xTitle='Repos Starred'
+        yTitle='Stargazers'
+        config={{
+          showLabels: false,
+        }}
+      />
+    </Column>
+    <Column class="w-full gap-4 flex-wrap">
+      <BarChart
+        query='users/users-public-repos-funnel'
+        title='Number of Public Repos from Stargazers'
+        x='range'
+        y='users'
+        xTitle='Public Repos'
+        yTitle='Stargazers'
+        config={{
+            showLabels: false,
+        }}
+      />
+    </Column>
+  </Row>
+
+  <a
+    href='https://latitude.so/?utm_campaign=file-over-app&utm_source=made-with-latitude&utm_medium=referral'
+    rel='noreferrer'
+    target='_blank'
+    class='bg-gray-900 py-2 px-3 rounded-lg flex items-center fixed bottom-4 right-4'
+  >
+    <img src='https://www.google.com/s2/favicons?domain=https://docs.latitude.so/&sz=128' class='w-4 h-4 mr-1' />
+    <Text.H6 class='text-white font-semibold'>Made with Latitude</Text.H6>
+  </a>
+</View>
